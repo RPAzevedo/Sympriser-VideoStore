@@ -45,4 +45,15 @@ public class Rental {
 
         return charge;
     }
+    
+    public int getPoints() {
+        
+        int points = 1;
+        
+        // add bonus for a two day new release rental
+        if ((this.getVideo().getPriceCode() == Video.NEW_RELEASE) && (this.getDaysRented() > 1))
+            points++;
+
+        return points;
+    }
 }

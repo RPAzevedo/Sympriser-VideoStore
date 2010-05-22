@@ -32,18 +32,17 @@ public class Customer {
 
         for (Rental each : _rentals)
         {
+            // determine charge
             double thisCharge = each.getCharge();
             
-            // add frequent renter points
-            renterPoints++;
-
-            // add bonus for a two day new release rental
-            if ((each.getVideo().getPriceCode() == Video.NEW_RELEASE) && (each.getDaysRented() > 1))
-                renterPoints++;
-
             // show figures for this rental
             result += "\t" + each.getVideo().getTitle() + "\t" + String.valueOf(thisCharge) + "\n";
+            
+            // accumulate charge 
             totalCharge += thisCharge;
+
+            // accumulate frequent renter points
+            renterPoints += each.getPoints();
         }
 
         // add footer lines
