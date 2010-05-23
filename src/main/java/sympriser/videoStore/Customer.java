@@ -25,22 +25,15 @@ public class Customer {
 
     public String statement() {
 
-        int renterPoints = 0;
-
         String result = "Rental Record for " + getName() + "\n";
 
+        // show figures for all rentals
         for (Rental each : _rentals)
-        {
-            // show figures for this rental
             result += "\t" + each.getVideo().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n";
-
-            // accumulate frequent renter points
-            renterPoints += each.getPoints();
-        }
 
         // add footer lines
         result += "Amount owed is " + String.valueOf(this.getCharge()) + "\n";
-        result += "You earned " + String.valueOf(renterPoints) + " frequent renter points";
+        result += "You earned " + String.valueOf(this.getPoints()) + " frequent renter points";
 
         return result;
     }
@@ -49,11 +42,21 @@ public class Customer {
 
         double charge = 0.00;
 
+        // accumulate charge
         for (Rental each : _rentals)
-        {
-            // accumulate charge
             charge += each.getCharge();
-        }
+
         return charge;
+    }
+    
+    public int getPoints() {
+        
+        int points = 0;
+
+        // accumulate frequent renter points
+        for (Rental each : _rentals)
+            points += each.getPoints();
+        
+        return points;
     }
 }
