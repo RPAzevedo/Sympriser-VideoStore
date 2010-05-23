@@ -23,17 +23,41 @@ public class Customer {
         return _name;
     }
 
-    public String statement() {
+    public String textStatement() {
 
-        String result = "Rental Record for " + getName() + "\n";
+        String result = "Rental Record for " + this.getName() + "\n";
 
         // show figures for all rentals
-        for (Rental each : _rentals)
-            result += "\t" + each.getVideo().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n";
+        for (Rental each : _rentals) {
+
+            result += "\t" + each.getVideo().getTitle() +
+                      "\t" + String.valueOf(each.getCharge()) + "\n";
+        }
 
         // add footer lines
         result += "Amount owed is " + String.valueOf(this.getCharge()) + "\n";
-        result += "You earned " + String.valueOf(this.getPoints()) + " frequent renter points";
+        result += "You earned " + String.valueOf(this.getPoints()) +
+                  " frequent renter points";
+
+        return result;
+    }
+
+    public String htmlStatement() {
+
+        String result = "<h1>Rental Record for <em>" + this.getName() + "</em></h1><p>\n";
+
+        // show figures for all rentals
+        for (Rental each : _rentals) {
+
+            result += "\t" + each.getVideo().getTitle() +
+                      "\t" + String.valueOf(each.getCharge()) + "<br />\n";
+        }
+        result += "</p>";
+
+        // add footer lines
+        result += "<p>Amount owed is <em>" + String.valueOf(this.getCharge()) + "</em></p>\n";
+        result += "<p>You earned <em>" + String.valueOf(this.getPoints()) +
+                  "</em> frequent renter points</p>\n";
 
         return result;
     }
