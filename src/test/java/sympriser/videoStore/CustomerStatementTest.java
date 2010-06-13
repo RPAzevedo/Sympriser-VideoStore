@@ -2,20 +2,28 @@ package sympriser.videoStore;
 
 import java.lang.StringBuilder;
 
-import junit.framework.TestCase;
+import org.junit.* ;
+import static org.junit.Assert.* ;
  
-public class CustomerStatementTest extends TestCase {
+public class CustomerStatementTest {
     
+    private Customer _customer;
+
+    @Before
+    public void createCustomerWithSeveralRentals() {
+        
+        _customer = new Customer("Barak Obama");
+        
+        _customer.addRental(new Rental(new Video("A Mulher Invisível",            Video.REGULAR), 5));
+        _customer.addRental(new Rental(new Video("Bossa Nova",                    Video.REGULAR), 9));
+        _customer.addRental(new Rental(new Video("O Assalto ao Trem Pagador",     Video.CHILDRENS), 7));
+        _customer.addRental(new Rental(new Video("Dona Flor e seus Dois Maridos", Video.NEW_RELEASE), 2));
+    }
+    
+    @Test
     public void testTextStatement() {
         
-        Customer c = new Customer("Barak Obama");
-        
-        c.addRental(new Rental(new Video("A Mulher Invisível",      Video.REGULAR),     5));
-        c.addRental(new Rental(new Video("Bossa Nova",              Video.REGULAR),     9));
-        c.addRental(new Rental(new Video("O Assalto ao Trem Pagador",       Video.CHILDRENS),   7));
-        c.addRental(new Rental(new Video("Dona Flor e seus Dois Maridos",   Video.NEW_RELEASE), 2));
-        
-        String generatedStatement = c.textStatement();
+        String generatedStatement = _customer.textStatement();
         
         String expectedStatement = new StringBuilder()
             .append("Rental Record for Barak Obama\n")
@@ -27,20 +35,14 @@ public class CustomerStatementTest extends TestCase {
             .append("You earned 5 frequent renter points")
             .toString();
         
-        TestCase.assertEquals(expectedStatement, generatedStatement);
+        assertEquals(expectedStatement, generatedStatement);
     }
 
  
+    @Test
     public void testHtmlStatement() {
 
-        Customer c = new Customer("Barak Obama");
-
-        c.addRental(new Rental(new Video("A Mulher Invisível",            Video.REGULAR), 5));
-        c.addRental(new Rental(new Video("Bossa Nova",                    Video.REGULAR), 9));
-        c.addRental(new Rental(new Video("O Assalto ao Trem Pagador",     Video.CHILDRENS), 7));
-        c.addRental(new Rental(new Video("Dona Flor e seus Dois Maridos", Video.NEW_RELEASE), 2));
-
-        String generatedStatement = c.htmlStatement();
+        String generatedStatement = _customer.htmlStatement();
 
         String expectedStatement = new StringBuilder()
                 .append("<h1>Rental Record for <em>Barak Obama</em></h1><p>\n")
@@ -53,6 +55,6 @@ public class CustomerStatementTest extends TestCase {
                 .append("<p>You earned <em>5</em> frequent renter points</p>\n")
                     .toString();
 
-        TestCase.assertEquals(expectedStatement, generatedStatement);
+        assertEquals(expectedStatement, generatedStatement);
     }
 }
