@@ -10,14 +10,18 @@ public class CustomerStatementTest {
     private Customer _customer;
 
     @Before
-    public void createCustomerWithSeveralRentals() {
+    public void init() {
         
         _customer = new Customer("Barak Obama");
         
-        _customer.addRental(new Rental(new Video("A Mulher Invisível",            Video.REGULAR), 5));
-        _customer.addRental(new Rental(new Video("Bossa Nova",                    Video.REGULAR), 9));
-        _customer.addRental(new Rental(new Video("O Assalto ao Trem Pagador",     Video.CHILDRENS), 7));
-        _customer.addRental(new Rental(new Video("Dona Flor e seus Dois Maridos", Video.NEW_RELEASE), 2));
+        RentalConditions regular    = new RentalConditions(2, 2.0, 1.5, 0);
+        RentalConditions childrens  = new RentalConditions(3, 1.5, 1.5, 0);
+        RentalConditions newRelease = new RentalConditions(1, 3.0, 3.0, 1);
+        
+        _customer.addRental(new Rental(new Video("A Mulher Invisível"),            regular, 5));
+        _customer.addRental(new Rental(new Video("Bossa Nova"),                    regular, 9));
+        _customer.addRental(new Rental(new Video("O Assalto ao Trem Pagador"),     childrens, 7));
+        _customer.addRental(new Rental(new Video("Dona Flor e seus Dois Maridos"), newRelease, 2));
     }
     
     @Test
