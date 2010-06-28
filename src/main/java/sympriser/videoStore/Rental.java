@@ -1,21 +1,35 @@
 package sympriser.videoStore;
 
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+
 public class Rental {
 
-    private final Video      _video;
-    private final int        _daysRented;
-    private final RentalConditions _conditions;
+    private final Video             _video;
+    private final LocalDate         _initialDate;
+    private final RentalConditions  _conditions;
 
-    public Rental(Video movie, RentalConditions conditions, int daysRented) {
+    public Rental(Video video, RentalConditions conditions, LocalDate initialDate) {
 
-        _video = movie;
-        _conditions = conditions;
-        _daysRented = daysRented;
+        _video       = video;
+        _conditions  = conditions;
+        _initialDate = initialDate;
+    }
+
+    public Rental(Video video, RentalConditions conditions, int daysRented) {
+
+        LocalDate today = new LocalDate();
+        
+        _video       = video;
+        _conditions  = conditions;
+        _initialDate = today.minusDays(daysRented);
     }
 
     public int getDaysRented() {
 
-        return _daysRented;
+        LocalDate today = new LocalDate();
+        
+        return Days.daysBetween(_initialDate, today).getDays();
     }
 
     public Video getVideo() {
@@ -25,11 +39,11 @@ public class Rental {
 
     public double getCharge() {
 
-        return _conditions.getCharge(_daysRented);
+        return _conditions.getCharge(getDaysRented());
     }
 
     public int getPoints() {
 
-        return _conditions.getPoints(_daysRented);
+        return _conditions.getPoints(getDaysRented());
     }
 }
